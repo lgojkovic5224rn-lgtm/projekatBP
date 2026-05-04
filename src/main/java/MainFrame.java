@@ -16,7 +16,7 @@ public class MainFrame extends JFrame {
         this.setContentPane(panel);
 
         // Osnovna podešavanja prozora
-        this.setTitle("Projekat BP");
+        this.setTitle("Projekat Baze");
         this.setSize(800, 600);
         this.setLocationRelativeTo(null); // centriranje
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
