@@ -7,7 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Getter
-public class UserLoader {
+public class UserLoader
+{
 
     private Map<String, String> users = new HashMap<>();
     private String filePath;
@@ -64,5 +65,54 @@ public class UserLoader {
 
         return true;
     }
-}
 
+    public boolean updateUser(String oldUsername, String newUsername, String newPassword)
+    {
+        if (!users.containsKey(oldUsername)) return false;
+
+        if (!oldUsername.equals(newUsername) && users.containsKey(newUsername)) return false;
+
+        users.remove(oldUsername);
+
+        users.put(newUsername, newPassword);
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath)))
+        {
+            for (Map.Entry<String, String> entry : users.entrySet())
+            {
+                writer.write(entry.getKey() + ":" + entry.getValue());
+                writer.newLine();
+            }
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean deleteUser(String username, String password)
+    {
+        if (!validateLogin(username, password)) return false;
+
+        users.remove(username);
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath)))
+        {
+            for (Map.Entry<String, String> entry : users.entrySet())
+            {
+                writer.write(entry.getKey() + ":" + entry.getValue());
+                writer.newLine();
+            }
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
+}

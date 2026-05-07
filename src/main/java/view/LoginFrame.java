@@ -2,6 +2,7 @@ package view;
 
 import controller.UserLoader;
 import lombok.Setter;
+import lombok.extern.java.Log;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,11 +20,9 @@ public class LoginFrame extends JFrame
     public static LoginFrame instance;
     public static LoginFrame getInstance()
     {
-
         if (instance == null)
         {
             instance = new LoginFrame();
-
         }
         return instance;
     }
@@ -98,6 +97,9 @@ public class LoginFrame extends JFrame
             {
                 JOptionPane.showMessageDialog(this, "Uspešno logovanje!");
                 this.setVisible(false);
+                MainFrame.getInstance().setUsername(username);
+                MainFrame.getInstance().setPassword(password);
+                MainFrame.getInstance().setUserLoader(userLoader);
                 MainFrame.getInstance().setVisible(true);
 
             }
@@ -118,4 +120,3 @@ public class LoginFrame extends JFrame
         add(panel);
     }
 }
-
