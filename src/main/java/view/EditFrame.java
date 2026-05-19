@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.SQLException;
 
 @Setter
 public class EditFrame extends JFrame
@@ -114,7 +115,8 @@ public class EditFrame extends JFrame
                 return;
             }
 
-            String oldUsername = MainFrame.getInstance().getUsername();
+            String oldUsername = null;
+            oldUsername = MainFrame.getInstance().getUsername();
 
             boolean success = userLoader.updateUser(oldUsername, newUsername, newPassword);
 
@@ -146,8 +148,8 @@ public class EditFrame extends JFrame
             if (option == JOptionPane.OK_OPTION)
             {
                 String enteredPassword = new String(passwordField.getPassword());
-                String currentUsername = MainFrame.getInstance().getUsername();;
-
+                String currentUsername = null;
+                currentUsername = MainFrame.getInstance().getUsername();
                 boolean success = userLoader.deleteUser(currentUsername, enteredPassword);
 
                 if(success)

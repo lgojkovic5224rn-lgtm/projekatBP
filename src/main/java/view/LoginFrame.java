@@ -6,6 +6,7 @@ import lombok.extern.java.Log;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.SQLException;
 
 @Setter
 public class LoginFrame extends JFrame
@@ -101,7 +102,6 @@ public class LoginFrame extends JFrame
                 MainFrame.getInstance().setPassword(password);
                 MainFrame.getInstance().setUserLoader(userLoader);
                 MainFrame.getInstance().setVisible(true);
-
             }
             else
             {

@@ -1,10 +1,10 @@
+import controller.Connect;
 import controller.UserLoader;
 import view.LoginFrame;
 
 import javax.swing.SwingUtilities;
 
-public class Main
-{
+public class Main {
 
     public static void main(String[] args)
     {
@@ -17,6 +17,8 @@ public class Main
         {
             e.printStackTrace();
         }
+
+        Connect.connect();
 
         SwingUtilities.invokeLater(() ->
         {

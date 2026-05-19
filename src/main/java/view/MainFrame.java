@@ -1,5 +1,8 @@
 package view;
 
+import controller.Connect;
+import controller.LoadLabs;
+import controller.LoadResearcher;
 import controller.UserLoader;
 import lombok.Getter;
 import lombok.Setter;
@@ -7,6 +10,7 @@ import lombok.Setter;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.sql.*;
 
 @Getter
 @Setter
@@ -15,6 +19,8 @@ public class MainFrame extends JFrame
     private String username;
     private String password;
     private UserLoader userLoader;
+    private JTable table1;
+    private JTable table2;
 
     public MainFrame()
     {
@@ -33,6 +39,7 @@ public class MainFrame extends JFrame
         return instance;
     }
 
+
     public void initUI()
     {
         JPanel mainPanel = new JPanel(new BorderLayout());
@@ -42,25 +49,25 @@ public class MainFrame extends JFrame
 
         JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JTextField searchField = new JTextField(20);
-        JButton searchButton = new JButton("Pretraga");
+        JButton searchButton = new JButton("Search");
 
         searchPanel.add(searchField);
         searchPanel.add(searchButton);
 
         JPanel accountPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        JButton editAccountButton = new JButton("Izmenite nalog");
-        JButton logoutButton = new JButton("Izlogujte se");
+        JButton editAccountButton = new JButton("Edit Account");
 
         accountPanel.add(editAccountButton);
-        accountPanel.add(logoutButton);
 
         topPanel.add(searchPanel, BorderLayout.WEST);
         topPanel.add(accountPanel, BorderLayout.EAST);
 
-        String[] columns = {"Column 1", "Column 2", "Column 3"};
+        String[] columns1 = {"ID", "Naziv", "Lokacija"};
+        String[] columns2 = {"ID", "Ime", "Prezime", "Datum Rodjenja", "Pol", "Stepen Obrazovanja", "Uloga"};
 
-        JTable table1 = new JTable(new DefaultTableModel(columns, 0));
-        JTable table2 = new JTable(new DefaultTableModel(columns, 0));
+        table1 = new JTable(new DefaultTableModel(columns1, 0));
+        table2 = new JTable(new DefaultTableModel(columns2, 0));
+        LoadLabs.loadLabs(table1);
 
         JScrollPane scrollPane1 = new JScrollPane(table1);
         JScrollPane scrollPane2 = new JScrollPane(table2);
@@ -81,10 +88,17 @@ public class MainFrame extends JFrame
             EditFrame.getInstance().setVisible(true);
         });
 
-        logoutButton.addActionListener(e ->
+        table1.getSelectionModel().addListSelectionListener(e ->
         {
-            this.dispose();
-            LoginFrame.getInstance().setVisible(true);
+            if(!e.getValueIsAdjusting())
+            {
+                int row = table1.getSelectedRow();
+                if(row != -1)
+                {
+                    int LabID = Integer.parseInt(table1.getValueAt(row, 0).toString());
+                    LoadResearcher.LoadResearcher(table2,LabID);
+                }
+            }
         });
 
         this.setTitle("Projekat Test 1");
